@@ -13,7 +13,7 @@ class ScrapingWorks extends Command
      *
      * @var string
      */
-    protected $signature = 'scrape:works';
+    protected $signature = 'scrape:jobs';
 
     /**
      * The console command description.
@@ -39,20 +39,54 @@ class ScrapingWorks extends Command
      */
     public function handle()
     {
-        // バイトルの求人一覧ページURL
-        $url = 'https://www.baitoru.com/kanto/jlist/tokyo/23ku/';
+        $this->truncateTables();
+        $this->saveUrls();
+    }
 
-        $crawler = \Goutte::request('GET', $url);
-        $urls = $crawler->filter('.li01 > h3 > a')->each(function ($node) {
-            return [
-                'url' => $node->attr('href'),
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ];
-            // $url = substr($href, strpos($href, '/', 20));
-        });
+    /**
+     * 求人一覧ページのURLを取得しDBに保存
+     *
+     * @return void
+     */
+    private function truncateTables()
+    {
+        $this->info('Truncate実行');
+        DB::table('jobs_urls')->truncate();
+    }
 
-        DB::table('jobs_urls')->insert($urls);
-        return 0;
+    /**
+     * 求人一覧ページのURLを取得しDBに保存
+     *
+     * @return void
+     */
+    private function saveUrls()
+    {
+        $this->info('スクレイピングを始めます');
+
+        $page = 4;
+
+        // 求人一覧ページを遷移する
+        for ($i = 2; $page > $i; $i++) {
+
+            // バイトルの求人一覧ページURL
+            $url = 'https://www.baitoru.com/kanto/jlist/tokyo/23ku/' . 'page' . $i . '/';
+
+            $this->info($url);
+            $crawler = \Goutte::request('GET', $url);
+            $urls = $crawler->filter('.li01 > h3 > a')->each(function ($node) {
+
+                // 求人詳細URL
+                $href = $node->attr('href');
+                return [
+                    'url' => substr($href, strpos($href, '/', 20)),
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ];
+            });
+            DB::table('jobs_urls')->insert($urls);
+            
+            // sleep(30);
+        }
+        $this->info('スクレイピング終了');
     }
 }

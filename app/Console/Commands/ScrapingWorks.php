@@ -11,6 +11,9 @@ use App\Models\Job;
 class ScrapingWorks extends Command
 {
     const HOST = 'https://www.baitoru.com/kanto/jlist/tokyo/23ku';
+
+    // データ挿入時デフォルトのstatue_id
+    const STATUE_ID = 1;
     /**
      * The name and signature of the console command.
      *
@@ -42,9 +45,9 @@ class ScrapingWorks extends Command
      */
     public function handle()
     {
-        $this->truncateTables();
-        $this->saveUrls();
-        $this->saveJobs();
+        // $this->truncateTables();
+        // $this->saveUrls();
+        // $this->saveJobs();
     }
 
     /**
@@ -107,23 +110,40 @@ class ScrapingWorks extends Command
             
             $crawler = \Goutte::request('GET', $url);
 
-            Jobs
-            $title = $this->getTitle($crawler);
-            $name = $this->getCompanyName($crawler);
-            $place = $this->getWorkPlace($crawler);
-            $salary = $this->getSalary($crawler);
-            $salary_detail = $this->getSalaryDetail($crawler);
-            $hours = $this->getHours($crawler);
-            // 求人によってはない
-            $hours_detail = $this->getHoursDetail($crawler);
-            // 求人によってはない
-            $features = $this->getFeatures($crawler);
-            $detail = $this->getDetail($crawler);
-            $treatment = $this->getTreatment($crawler);
-            $qualification = $this->getQualification($crawler);
-            $location = $this->getLocation($crawler);
+            Job::create([
+            'url' => $url,
+            'title' => $this->getTitle($crawler),
+            'company_name' => $this->getCompanyName($crawler),
+            'place' => $this->getWorkPlace($crawler),
+            'salary' => $this->getSalary($crawler),
+            'salary_detail' => $this->getSalaryDetail($crawler),
+            'hours' => $this->getHours($crawler),
+            'hours_detail' => $this->getHoursDetail($crawler), // 求人によってはな,
+            'features' => $this->getFeatures($crawler), // 求人によってはな,
+            'detail' => $this->getDetail($crawler),
+            'treatment' => $this->getTreatment($crawler),
+            'qualification' => $this->getQualification($crawler),
+            'file' => $this->getFile($crawler),
+            'location' => $this->getLocation($crawler),
+            'status_id' => self::STATUE_ID
+            ]);
+            // $title = $this->getTitle($crawler);
+            // $name = $this->getCompanyName($crawler);
+            // $place = $this->getWorkPlace($crawler);
+            // $salary = $this->getSalary($crawler);
+            // $salary_detail = $this->getSalaryDetail($crawler);
+            // $hours = $this->getHours($crawler);
+            // // 求人によってはない
+            // $hours_detail = $this->getHoursDetail($crawler);
+            // // 求人によってはない
+            // $features = $this->getFeatures($crawler);
+            // $detail = $this->getDetail($crawler);
+            // $treatment = $this->getTreatment($crawler);
+            // $qualification = $this->getQualification($crawler);
+            // $location = $this->getLocation($crawler);
+            // $file = $this->getFile($crawler);
 
-            dump($features);
+            // dump($file);
 
             sleep(1);
         }
@@ -260,6 +280,23 @@ class ScrapingWorks extends Command
     private function getQualification($crawler): string
     {
         return $crawler->filter('.detail-recruitInfo .pt01 .dl06 dd > p')->text();
+    }
+
+    /**
+     * 画像を取得
+     *
+     * @param  object $crawler
+     * @return string
+     */
+    private function getFile($crawler): string
+    {
+        $check = $crawler->filter('.detail-basicInfo .pt01b .ul01 .js-ic-bigImage img');
+
+        // 取得先があるかチェック
+        if (!$check->count()) {
+            return '';
+        }
+        return 'https:' . $check->attr('data-replaceimage');
     }
 
     /**

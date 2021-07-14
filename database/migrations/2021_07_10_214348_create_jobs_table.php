@@ -23,7 +23,7 @@ class CreateJobsTable extends Migration
             $table->text('salary_detail');
             $table->string('hours');
             $table->text('hours_detail');
-            $table->text('features')->nullable();
+            $table->text('features');
             $table->text('detail');
             $table->text('treatment');
             $table->text('qualification');

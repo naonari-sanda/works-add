@@ -10,7 +10,7 @@ use App\Repositories\Interfaces\JobInterface;
  */
 class JobRepository implements JobInterface
 {
-    protected $job;
+    private $job;
 
     /**
      * Jobモデル取得

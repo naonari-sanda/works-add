@@ -12,6 +12,7 @@
         "guzzlehttp/guzzle": "^7.3",
         "laravel/framework": "^8.40",
         "laravel/tinker": "^2.5",
+        "laravel/ui": "^3.3",
         "weidner/goutte": "^2.1"
     },
     "require-dev": {

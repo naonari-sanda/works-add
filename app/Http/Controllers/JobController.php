@@ -7,7 +7,7 @@ use App\Repositories\Interfaces\JobInterface;
 
 class JobController extends Controller
 {
-    protected $job;
+    private $job;
 
     public function __construct(JobInterface $job_interface)
     {

@@ -3,18 +3,32 @@
 namespace App\Repositories\Eloquents;
 
 use App\Models\Job;
+use App\Repositories\Interfaces\JobInterface;
 
 /**
  * class JobRepository
  */
-class Jobrepository implements EloquentInterface
+class JobRepository implements JobInterface
 {
+    protected $job;
+
+    /**
+     * Jobモデル取得
+     *
+     * @param object $job
+     */
     public function __construct(Job $job)
     {
         $this->job = $job;
     }
 
     /**
-     * jobモデル
+     * 全ての求人を取得
+     *
+     *@return object
      */
+    public function getAllJobs(): object
+    {
+        return $this->job->all();
+    }
 }

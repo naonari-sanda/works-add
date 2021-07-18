@@ -31,4 +31,15 @@ class JobRepository implements JobInterface
     {
         return $this->job->all();
     }
+
+    /**
+     * 求人詳細を取得
+     *
+     * @param int $id
+     * @return object
+     */
+    public function getJobById(int $id): object
+    {
+        return $this->job->find($id);
+    }
 }

@@ -10,4 +10,12 @@ interface JobInterface
      *@return object
      */
     public function getAllJobs(): object;
+
+    /**
+     * 求人詳細を取得
+     *
+     * @param int $id
+     * @return object
+     */
+    public function getJobById(int $id): object;
 }

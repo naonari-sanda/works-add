@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LikeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +18,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// いいね
+Route::put('/jobs/{id}/like', [LikeController::class, 'like'])->name('job.like');
+// いいね解除
+Route::delete('/jobs/{id}/like', [LikeController::class, 'unlike']);

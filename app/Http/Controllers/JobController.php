@@ -4,15 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Repositories\Interfaces\JobInterface;
+use App\Services\Interfaces\LikeInterface;
 use Barryvdh\Reflection\DocBlock\Type\Collection;
 
 class JobController extends Controller
 {
     private $job;
 
-    public function __construct(JobInterface $job_interface)
-    {
-        $this->job = $job_interface;
+    public function __construct(
+        JobInterface $job_interface
+    ) {
+        $this->job  = $job_interface;
     }
     
     /**

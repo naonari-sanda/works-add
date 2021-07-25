@@ -17,6 +17,11 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\Interfaces\JobInterface::class,
             \App\Repositories\Eloquents\JobRepository::class
         );
+
+        $this->app->bind(
+            \App\Services\Interfaces\LikeInterface::class,
+            \App\Services\LikeService::class
+        );
     }
 
     /**

@@ -20,6 +20,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 // いいね
-Route::put('/jobs/{id}/like', [LikeController::class, 'like'])->name('job.like');
+Route::match(['get', 'post'], '/job/{id}/like', [LikeController::class, 'like'])->name('job.like');
 // いいね解除
-Route::delete('/jobs/{id}/like', [LikeController::class, 'unlike']);
+Route::match(['get', 'post'], '/job/{id}/unlike', [LikeController::class, 'unlike'])->name('job.like');

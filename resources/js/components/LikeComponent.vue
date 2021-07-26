@@ -20,7 +20,7 @@
 export default {
     data() {
         return {
-            liked: false,
+            liked: 0,
             count: 0,
             authId: 0,
         };

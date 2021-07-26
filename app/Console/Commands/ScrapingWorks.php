@@ -45,9 +45,9 @@ class ScrapingWorks extends Command
      */
     public function handle()
     {
-        // $this->truncateTables();
-        // $this->saveUrls();
-        // $this->saveJobs();
+        $this->truncateTables();
+        $this->saveUrls();
+        $this->saveJobs();
     }
 
     /**
@@ -71,10 +71,10 @@ class ScrapingWorks extends Command
     {
         $this->info('スクレイピングを始めます');
 
-        $page = 4;
+        $page = 3;
 
         // 求人一覧ページを遷移する
-        for ($i = 3; $page > $i; $i++) {
+        for ($i = 2; $page > $i; $i++) {
 
             // バイトルの求人一覧ページURL
             $url = $this::HOST . '/page' . $i . '/';
@@ -127,23 +127,6 @@ class ScrapingWorks extends Command
             'location' => $this->getLocation($crawler),
             'status_id' => self::STATUE_ID
             ]);
-            // $title = $this->getTitle($crawler);
-            // $name = $this->getCompanyName($crawler);
-            // $place = $this->getWorkPlace($crawler);
-            // $salary = $this->getSalary($crawler);
-            // $salary_detail = $this->getSalaryDetail($crawler);
-            // $hours = $this->getHours($crawler);
-            // // 求人によってはない
-            // $hours_detail = $this->getHoursDetail($crawler);
-            // // 求人によってはない
-            // $features = $this->getFeatures($crawler);
-            // $detail = $this->getDetail($crawler);
-            // $treatment = $this->getTreatment($crawler);
-            // $qualification = $this->getQualification($crawler);
-            // $location = $this->getLocation($crawler);
-            // $file = $this->getFile($crawler);
-
-            // dump($file);
 
             sleep(1);
         }

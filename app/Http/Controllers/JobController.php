@@ -22,9 +22,10 @@ class JobController extends Controller
      *
      * @return object
      */
-    public function index(): object
+    public function index(Request $request): object
     {
         $jobs = $this->job->getAllJobs();
+        // dd($request->ip());
 
         return view('pages.index', compact('jobs'));
     }

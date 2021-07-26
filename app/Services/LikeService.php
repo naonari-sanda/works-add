@@ -30,7 +30,6 @@ class LikeService implements LikeInterface
         if (! $job) {
             abort(404);
         }
-        // dd($user_id);
 
         $job->likes()->detach($user_id);
         $job->likes()->attach($user_id);

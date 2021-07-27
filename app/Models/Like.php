@@ -11,6 +11,8 @@ class Like extends Model
 
     protected $table = 'likes';
 
+    protected $guarded = ['id'];
+
     /**
      * いいね機能
      *

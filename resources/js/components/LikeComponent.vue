@@ -2,7 +2,8 @@
     <div class="container">
         <div class="row justify-content-center mt-1">
             <div class="col-md-12">
-                <div v-if="!authId">
+                {{ this.authId }}
+                <div v-if="authId">
                     <button>いいねゲスト</button>
                     <p>いいね数：{{ this.count }}</p>
                 </div>

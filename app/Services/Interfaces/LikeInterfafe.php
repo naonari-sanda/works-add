@@ -7,16 +7,20 @@ interface LikeInterface
     /**
      * いいね登録
      *
-     *@param int $job_id
+     *@param int $id
+     *@param int $user_id
+     *@param string $ip
      *@return void
      */
-    public function like(int $job_id, int $user_id): void;
+    public function like(int $job_id, int $user_id, string $ip): void;
 
     /**
      * いいね解除
      *
-     *@param
-     *@return
+     *@param int $job_id
+     *@param int $user_id
+     *@param string $ip
+     *@return void
      */
-    public function unlike($job_id, int $user_id);
+    public function unlike(int $job_id, int $user_id, string $ip): void;
 }

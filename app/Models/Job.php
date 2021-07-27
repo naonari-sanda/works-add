@@ -22,7 +22,7 @@ class Job extends Model
      */
     public function likes()
     {
-        return $this->belongsToMany('App\Models\User', 'likes')->withTimestamps();
+        return $this->HasMany('App\Models\Like');
     }
 
     /**

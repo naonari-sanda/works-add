@@ -23,8 +23,7 @@ class LikeController extends Controller
      */
     public function like(int $id, Request $request)
     {
-        $this->like->like($id, 1);
- 
+        $this->like->like($id, $request->user_id, $request->ip());
 
         return ["user_id" => $id];
     }
@@ -36,8 +35,7 @@ class LikeController extends Controller
      */
     public function unLike(int $id, Request $request)
     {
-        $this->like->unlike($id, $request->user_id);
-
+        $this->like->unlike($id, $request->user_id, $request->ip());
 
         return ["user_id" => $id];
     }

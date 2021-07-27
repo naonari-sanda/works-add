@@ -33,21 +33,12 @@ class LikeService implements LikeInterface
     public function like(int $job_id, int $user_id, string $ip): void
     {
         $job = $this->job->where('id', $job_id)->first();
-
         if (! $job) {
             abort(404);
         }
 
         $this->deleteLike($job, $user_id, $ip);
-
-        // $job->likes()->where('user_id', $user_id)->delete();
-
-        $this->like->job_id = $job_id;
-        $this->like->ip = $ip;
-        if ($user_id) {
-            $this->like->user_id = $user_id;
-        }
-        $this->like->save();
+        $this->createLike($job_id, $user_id, $ip);
     }
 
     /**
@@ -61,10 +52,10 @@ class LikeService implements LikeInterface
     public function unlike($job_id, int $user_id, string $ip): void
     {
         $job = $this->job->where('id', $job_id)->with('likes')->first();
-
         if (! $job) {
             abort(404);
         }
+
         $this->deleteLike($job, $user_id, $ip);
     }
 
@@ -81,6 +72,22 @@ class LikeService implements LikeInterface
         } else {
             $job->likes()->where('ip', $ip)->delete();
         }
+    }
+
+    /**
+     * いいね登録
+     * @param int $job_id
+     * @param int $user_id
+     * @param string $ip
+     */
+    private function createLike(int $job_id, int $user_id, string $ip): void
+    {
+        $this->like->job_id = $job_id;
+        $this->like->ip = $ip;
+        if (!empty($user_id)) {
+            $this->like->user_id = $user_id;
+        }
+        $this->like->save();
     }
         
 

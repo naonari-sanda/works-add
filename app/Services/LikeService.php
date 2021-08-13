@@ -49,7 +49,7 @@ class LikeService implements LikeInterface
      *@param string $ip
      *@return void
      */
-    public function unlike($job_id, int $user_id, string $ip): void
+    public function unlike(int $job_id, int $user_id, string $ip): void
     {
         $job = $this->job->where('id', $job_id)->with('likes')->first();
         if (! $job) {
@@ -57,6 +57,24 @@ class LikeService implements LikeInterface
         }
 
         $this->deleteLike($job, $user_id, $ip);
+    }
+
+    /**
+     * いいねチェック
+     *
+     *@param int $job_id
+     *@param int $user_id
+     *@param string $ip
+     *@return bool
+     */
+    public function checkLiked(int $job_id, ?int $user_id, string $ip): bool
+    {
+        $check = $this->like->where('job_id', $job_id)->where(function ($query) use ($user_id, $ip) {
+            $query->where('user_id', '=', $user_id)
+                ->orWhere('ip', $ip);
+        })->first();
+
+        return isset($check);
     }
 
     /**
@@ -97,7 +115,7 @@ class LikeService implements LikeInterface
      * @param int $job_id
      * @return boolean
      */
-    public function is_like(int $job_id): Boolean
+    public function is_like(int $job_id): boolean
     {
         return $this->like->where('job_id', $job_id)->exits();
     }

@@ -23,4 +23,14 @@ interface LikeInterface
      *@return void
      */
     public function unlike(int $job_id, int $user_id, string $ip): void;
+
+    /**
+     * いいねチェック
+     *
+     *@param int $job_id
+     *@param int $user_id
+     *@param string $ip
+     *@return bool
+     */
+    public function checkLiked(int $job_id, ?int $user_id, string $ip): bool;
 }

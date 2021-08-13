@@ -23,3 +23,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::match(['get', 'post'], '/job/{id}/like', [LikeController::class, 'like'])->name('job.like');
 // いいね解除
 Route::match(['get', 'post'], '/job/{id}/unlike', [LikeController::class, 'unlike'])->name('job.like');
+// いいねチェック
+Route::get('/job/{id}/hasliked', [LikeController::class, 'checkLiked']);

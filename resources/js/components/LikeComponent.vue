@@ -2,12 +2,11 @@
     <div class="container">
         <div class="row justify-content-center mt-1">
             <div class="col-md-12">
-                {{ this.authId }}
-                <div v-if="authId">
+                <!-- <div v-if="!authId">
                     <button>いいねゲスト</button>
-                    <p>いいね数：{{ this.count }}</p>
-                </div>
-                <div v-else>
+                    <p>{{ this.liked }}いいね数：{{ this.count }}</p>
+                </div> -->
+                <div>
                     <button v-if="liked" @click="unlike()">いいね解除</button>
                     <button v-if="!liked" @click="like()">いいね</button>
                     <p>いいね数：{{ this.count }}</p>
@@ -24,6 +23,7 @@ export default {
             liked: 0,
             count: 0,
             authId: 0,
+            text: "sss",
         };
     },
     props: {
@@ -41,13 +41,25 @@ export default {
         },
     },
     mounted() {
-        if (this.likeCheck) {
-            this.liked = this.likeCheck;
-        }
         this.count = this.likeCount;
         this.authId = this.userId;
+        this.first_check();
     },
     methods: {
+        first_check() {
+            const url = "/api/job/" + this.jobId + "/hasliked";
+
+            axios
+                .get(url, {
+                    user_id: this.authId,
+                })
+                .then((response) => {
+                    this.liked = response.data;
+                })
+                .catch((error) => {
+                    alert(error);
+                });
+        },
         like(jobId) {
             const url = "/api/job/" + this.jobId + "/like";
 

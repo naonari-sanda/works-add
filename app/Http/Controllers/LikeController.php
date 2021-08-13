@@ -25,7 +25,7 @@ class LikeController extends Controller
     {
         $this->like->like($id, $request->user_id, $request->ip());
 
-        return ["user_id" => $id];
+        return ['user_id' => $id];
     }
 
     /**
@@ -37,6 +37,20 @@ class LikeController extends Controller
     {
         $this->like->unlike($id, $request->user_id, $request->ip());
 
-        return ["user_id" => $id];
+        return ['user_id' => $id];
+    }
+
+    /**
+     * いいねチェック
+     *
+     * @param int $id
+     * @return boolean
+     */
+    public function checkLiked(int $id, Request $request)
+    {
+        // dd($request);
+        $check = $this->like->checkLiked($id, $request->user_id, $request->ip());
+
+        return response()->json($check);
     }
 }

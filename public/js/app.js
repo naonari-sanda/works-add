@@ -17961,7 +17961,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       liked: 0,
       count: 0,
-      authId: 0
+      authId: 0,
+      text: "sss"
     };
   },
   props: {
@@ -17979,36 +17980,45 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    if (this.likeCheck) {
-      this.liked = this.likeCheck;
-    }
-
     this.count = this.likeCount;
     this.authId = this.userId;
+    this.first_check();
   },
   methods: {
-    like: function like(jobId) {
+    first_check: function first_check() {
       var _this = this;
+
+      var url = "/api/job/" + this.jobId + "/hasliked";
+      axios.get(url, {
+        user_id: this.authId
+      }).then(function (response) {
+        _this.liked = response.data;
+      })["catch"](function (error) {
+        alert(error);
+      });
+    },
+    like: function like(jobId) {
+      var _this2 = this;
 
       var url = "/api/job/" + this.jobId + "/like";
       axios.post(url, {
         user_id: this.authId
       }).then(function (response) {
-        _this.liked = true;
-        _this.count += 1;
+        _this2.liked = true;
+        _this2.count += 1;
       })["catch"](function (error) {
         alert(error);
       });
     },
     unlike: function unlike() {
-      var _this2 = this;
+      var _this3 = this;
 
       var url = "/api/job/" + this.jobId + "/unlike";
       axios.post(url, {
         user_id: this.userId
       }).then(function (response) {
-        _this2.liked = false;
-        _this2.count -= 1;
+        _this3.liked = false;
+        _this3.count -= 1;
       })["catch"](function (error) {
         alert(error);
       });
@@ -18040,23 +18050,8 @@ var _hoisted_2 = {
 var _hoisted_3 = {
   "class": "col-md-12"
 };
-var _hoisted_4 = {
-  key: 0
-};
-
-var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", null, "いいねゲスト", -1
-/* HOISTED */
-);
-
-var _hoisted_6 = {
-  key: 1
-};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(this.authId) + " ", 1
-  /* TEXT */
-  ), $data.authId ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_4, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, "いいね数：" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(this.count), 1
-  /* TEXT */
-  )])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_6, [$data.liked ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("button", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"!authId\">\n                    <button>いいねゲスト</button>\n                    <p>{{ this.liked }}いいね数：{{ this.count }}</p>\n                </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, [$data.liked ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("button", {
     key: 0,
     onClick: _cache[1] || (_cache[1] = function ($event) {
       return $options.unlike();
@@ -18068,7 +18063,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   }, "いいね")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, "いいね数：" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(this.count), 1
   /* TEXT */
-  )]))])])]);
+  )])])])]);
 }
 
 /***/ }),

@@ -45,8 +45,8 @@ class ScrapingWorks extends Command
      */
     public function handle()
     {
-        $this->truncateTables();
-        $this->saveUrls();
+        // $this->truncateTables();
+        // $this->saveUrls();
         $this->saveJobs();
     }
 
@@ -104,17 +104,26 @@ class ScrapingWorks extends Command
     private function saveJobs()
     {
         $this->info('求人詳細をスクレイピング開始');
+
+
+        
+    
         foreach (JobsUrl::all() as $jobs_url) {
             $url =  $this::HOST . $jobs_url->url;
             $this->info($url);
             
             $crawler = \Goutte::request('GET', $url);
 
+            $tell = $this->getContact($crawler);
+
+            $this->info($tell);
+
             Job::create([
             'url' => $url,
             'title' => $this->getTitle($crawler),
             'company_name' => $this->getCompanyName($crawler),
             'place' => $this->getWorkPlace($crawler),
+            'tell' => $this->getContact($crawler),
             'salary' => $this->getSalary($crawler),
             'salary_detail' => $this->getSalaryDetail($crawler),
             'hours' => $this->getHours($crawler),
@@ -152,6 +161,17 @@ class ScrapingWorks extends Command
     private function getCompanyName($crawler): string
     {
         return $crawler->filter('.detail-entryInfo .dl01 > dd > p')->text();
+    }
+
+    /**
+     * 電話番号を取得
+     *
+     * @param  object $crawler
+     * @return string
+     */
+    private function getContact($crawler): string
+    {
+        return $crawler->filter('#tel_modal_obotel_text')->text();
     }
 
     /**

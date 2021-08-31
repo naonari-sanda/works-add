@@ -19,6 +19,7 @@ class CreateJobsTable extends Migration
             $table->string('title');
             $table->string('company_name');
             $table->string('place');
+            $table->string('tell');
             $table->string('salary');
             $table->text('salary_detail');
             $table->string('hours');

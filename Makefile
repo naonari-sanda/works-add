@@ -67,7 +67,7 @@ web:
 bash:
 	docker compose exec app bash
 scrape:
-	docker compose exec app php artisan scrape:jobs
+	docker compose exec app php artisan scsrape:jobs
 migrate:
 	docker compose exec app php artisan migrate
 fresh:

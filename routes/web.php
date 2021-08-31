@@ -20,3 +20,8 @@ Route::get('job/{id}', [JobController::class, 'show'])->name('job');
 Auth::routes();
 
 // Route::get('/{any?}', fn() => view('index'))->where('any', '.+');
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Voyager::routes();
+});
